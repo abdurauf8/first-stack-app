@@ -18,7 +18,7 @@ const fetchUsers = async () => {
     }, 5000);
 
     try {
-        const res = await fetch("/users", {
+        const res = await fetch("/api/users", {
         signal: controller.signal,
         });
         if (!res.ok) {
@@ -60,7 +60,7 @@ const fetchUsers = async () => {
             deleteBtn.addEventListener("click", async () => {
                 try {
                     const res = await fetch(
-                        `/users/${user.id}`, {
+                        `/api/users?id=${user.id}`, {
                             method: "DELETE",
                             headers: {
                                 "Content-Type": "application/json",
@@ -115,7 +115,7 @@ form.addEventListener('submit', async (e) => {
     try {
 
         if (editUserId) {
-            const res = await fetch(`/users/${editUserId}`, {
+            const res = await fetch(`/api/users?id=${user.id}`, {
             method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -139,7 +139,7 @@ form.addEventListener('submit', async (e) => {
             }
 
         } else {
-            const res = await fetch("/users", {
+            const res = await fetch("/api/users", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
