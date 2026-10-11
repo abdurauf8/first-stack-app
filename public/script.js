@@ -115,7 +115,7 @@ form.addEventListener('submit', async (e) => {
     try {
 
         if (editUserId) {
-            const res = await fetch(`/api/users?id=${user.id}`, {
+            const res = await fetch(`/api/users?id=${editUserId}`, {
             method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
