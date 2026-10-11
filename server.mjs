@@ -25,7 +25,10 @@ let users = [{
 const server = createServer((req, res) => {
     ///////////
     res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.setHeader(
+        "Access-Control-Allow-Methods",
+        "GET, POST, PUT, DELETE, OPTIONS",
+    );
     res.setHeader("Access-Control-Allow-Headers", "Content-Type");
     if (req.method === "OPTIONS") {
         res.writeHead(204);
@@ -35,14 +38,12 @@ const server = createServer((req, res) => {
     ////////////
 
     try {
-
         if (req.url.startsWith("/users")) {
             console.log("/users ga so'rov kleib tushdi!");
 
             if (req.method === "GET") {
                 res.writeHead(200, "Muvaffaqiyatli javob keldi!");
                 res.end(JSON.stringify(users));
-
             } else if (req.method === "PUT" && req.url.startsWith("/users/")) {
                 console.log("PUT sorovi keldi");
 
@@ -51,9 +52,11 @@ const server = createServer((req, res) => {
 
                 if (!updatingUser) {
                     res.writeHead(404);
-                    res.end(JSON.stringify({
-                        xato: "Bunday foydalanuvchi mavjud emas"
-                    }));
+                    res.end(
+                        JSON.stringify({
+                            xato: "Bunday foydalanuvchi mavjud emas",
+                        }),
+                    );
                     return;
                 }
 
@@ -65,11 +68,13 @@ const server = createServer((req, res) => {
                 req.on("end", () => {
                     if (!updatingUser) {
                         res.writeHead(404);
-                        res.end(JSON.stringify({
-                            xato: "Bunday foydalanuvchi mavjud emas"
-                        }));
+                        res.end(
+                            JSON.stringify({
+                                xato: "Bunday foydalanuvchi mavjud emas",
+                            }),
+                        );
                         return;
-                    };
+                    }
                     const newUserData = JSON.parse(newBody);
                     updatingUser.name = newUserData.name;
                     updatingUser.age = newUserData.age;
@@ -77,13 +82,14 @@ const server = createServer((req, res) => {
                     console.log("Updated: ", updatingUser);
 
                     res.writeHead(200);
-                    res.end(JSON.stringify({
-                        ...updatingUser,
-                        status: "success"
-                    }));
+                    res.end(
+                        JSON.stringify({
+                            ...updatingUser,
+                            status: "success",
+                        }),
+                    );
                 });
                 return;
-
             } else if (req.method === "POST") {
                 let body = "";
 
@@ -117,19 +123,22 @@ const server = createServer((req, res) => {
                 const deletingUser = users.find((user) => user.id === parseInt(userId));
                 if (!deletingUser) {
                     res.writeHead(404);
-                    res.end(JSON.stringify({ xato: "Bunday foydalanuvchi mavjud emas" }));
+                    res.end(JSON.stringify({
+                        xato: "Bunday foydalanuvchi mavjud emas"
+                    }));
                     return;
                 }
 
                 users = users.filter((user) => user.id !== parseInt(userId));
 
                 res.writeHead(200);
-                res.end(JSON.stringify({
-                    status: "success"
-                }));
+                res.end(
+                    JSON.stringify({
+                        status: "success",
+                    }),
+                );
 
                 return;
-
             } else {
                 res.writeHead(405);
                 res.end(
@@ -139,20 +148,22 @@ const server = createServer((req, res) => {
                 );
                 throw new Error("Method noto'g'ri!");
             }
-
         } else {
             res.writeHead(404);
-            res.end(JSON.stringify({
-                xatolik: "URL noto'g'ri!"
-            }));
+            res.end(
+                JSON.stringify({
+                    xatolik: "URL noto'g'ri!",
+                }),
+            );
             throw new Error("URL noto'g'ri!");
         }
-
     } catch (err) {
         console.error("Xatolik:", err.message);
     }
 });
 
-server.listen(2233, () => {
-    console.log("Server 2233-portda ishga tushdi!");
-})
+const PORT = process.env.PORT || 2233;
+
+server.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server ${PORT} portda ishlayapti`);
+});
