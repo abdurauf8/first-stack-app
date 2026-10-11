@@ -60,7 +60,7 @@ const fetchUsers = async () => {
 
             deleteBtn.addEventListener("click", async () => {
                 try {
-                    const res = await fetch(`${API_URL}?id=${user.id}`, {
+                    const res = await fetch(`${API_URL}/${user.id}`, {
                         method: "DELETE",
                         headers: {
                             "Content-Type": "application/json",
@@ -108,7 +108,7 @@ form.addEventListener("submit", async (e) => {
 
     try {
         if (editUserId) {
-            const res = await fetch(`${API_URL}?id=${editUserId}`, {
+            const res = await fetch(`${API_URL}/${editUserId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
