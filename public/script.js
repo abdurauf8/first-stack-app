@@ -18,8 +18,8 @@ const fetchUsers = async () => {
     }, 5000);
 
     try {
-        const res = await fetch("http://localhost:2233/users", {
-            signal: controller.signal,
+        const res = await fetch("/users", {
+        signal: controller.signal,
         });
         if (!res.ok) {
             getStatus.textContent = "Xatolik yuz berdi.";
@@ -60,7 +60,7 @@ const fetchUsers = async () => {
             deleteBtn.addEventListener("click", async () => {
                 try {
                     const res = await fetch(
-                        `http://localhost:2233/users/${user.id}`, {
+                        `/users/${user.id}`, {
                             method: "DELETE",
                             headers: {
                                 "Content-Type": "application/json",
@@ -115,8 +115,8 @@ form.addEventListener('submit', async (e) => {
     try {
 
         if (editUserId) {
-            const res = await fetch(`http://localhost:2233/users/${editUserId}`, {
-                method: "PUT",
+            const res = await fetch(`/users/${editUserId}`, {
+            method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -139,7 +139,7 @@ form.addEventListener('submit', async (e) => {
             }
 
         } else {
-            const res = await fetch("http://localhost:2233/users", {
+            const res = await fetch("/users", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
