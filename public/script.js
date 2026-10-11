@@ -1,3 +1,4 @@
+const API_URL = "https://first-stack-app.onrender.com/users";
 const getBtn = document.getElementById("get_btn");
 const getStatus = document.querySelector("#get_status");
 const postStatus = document.querySelector("#status_post");
@@ -18,8 +19,8 @@ const fetchUsers = async () => {
     }, 5000);
 
     try {
-        const res = await fetch("/api/users", {
-        signal: controller.signal,
+        const res = await fetch(API_URL, {
+            signal: controller.signal,
         });
         if (!res.ok) {
             getStatus.textContent = "Xatolik yuz berdi.";
@@ -59,32 +60,28 @@ const fetchUsers = async () => {
 
             deleteBtn.addEventListener("click", async () => {
                 try {
-                    const res = await fetch(
-                        `/api/users?id=${user.id}`, {
-                            method: "DELETE",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
+                    const res = await fetch(`${API_URL}?id=${user.id}`, {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type": "application/json",
                         },
-                    );
+                    });
                     const data = await res.json();
-                    if(data.status === "success"){
+                    if (data.status === "success") {
                         alert("Muvaffaqiyatli o'chirildi.");
                         fetchUsers();
-                        if(editUserId === user.id){
+                        if (editUserId === user.id) {
                             inputName.value = "";
                             inputAge.value = "";
                             inputAddress.value = "";
-                            submitBtn.textContent = "Submit"
+                            submitBtn.textContent = "Submit";
                             editUserId = null;
                         }
                     }
-
                 } catch (err) {
                     console.error("O'chirishda xatolik yuz berdi.", err);
                 }
             });
-
         });
     } catch (err) {
         if (err.name === "AbortError") {
@@ -96,27 +93,23 @@ const fetchUsers = async () => {
     } finally {
         clearTimeout(timer);
     }
-
 };
-getBtn.addEventListener('click', fetchUsers);
+getBtn.addEventListener("click", fetchUsers);
 
-
-
-
-form.addEventListener('submit', async (e) => {
+form.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (
-      inputName.value.trim().length < 1 ||
-      inputAge.value < 1 ||
-      inputAddress.value.trim().length < 1
-    ) return;
+        inputName.value.trim().length < 1 ||
+        inputAge.value < 1 ||
+        inputAddress.value.trim().length < 1
+    )
+        return;
     postStatus.textContent = "Yuklanmoqda...";
 
     try {
-
         if (editUserId) {
-            const res = await fetch(`/api/users?id=${editUserId}`, {
-            method: "PUT",
+            const res = await fetch(`${API_URL}?id=${editUserId}`, {
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -137,9 +130,8 @@ form.addEventListener('submit', async (e) => {
                 submitBtn.textContent = "Submit";
                 editUserId = null;
             }
-
         } else {
-            const res = await fetch("/api/users", {
+            const res = await fetch(API_URL, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -160,7 +152,6 @@ form.addEventListener('submit', async (e) => {
                 console.log(data);
             }
         }
-
     } catch (err) {
         postStatus.textContent = "Qandaydir xatolik yuz berdi";
         console.error(err);
